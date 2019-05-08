@@ -3,21 +3,14 @@ import cosas.*
 object camion {
 	const property cosas = []
 	
-	//Metodo para mapear la lista de cosas a sus pesos.
-	method mapPesosDeCosas() = cosas.map { cosa => cosa.peso() }
-	
-	method cargar(unaCosa) { cosas.add(unaCosa) }
-	
+	method cargar(unaCosa) { 
+		cosas.add(unaCosa)
+		unaCosa.modificate()
+	}
 	method descargar(unaCosa) { cosas.remove(unaCosa) }
-	
-	method tara() = 1000
-	
-	method pesoTotal() = self.mapPesosDeCosas().sum() + self.tara()
+	method pesoTotal() = self.pesos().sum() + self.tara()
 	
 	method excedidoDePeso() = self.pesoTotal() > 2500
-	
-	//Metodo util para los proximos 3 del ejercicio.
-	method filtrarPorPeligrosidad(limite) = cosas.filter { cosa => cosa.nivelPeligrosidad() > limite }
 	
 	method objetosPeligrosos(nivel) = self.filtrarPorPeligrosidad(nivel)
 	
@@ -25,4 +18,18 @@ object camion {
 	
 	//Se cambio el nombre del parametro por peligrosidadLimite.
 	method puedeCircularEnRuta(peligrosidadLimite) = self.filtrarPorPeligrosidad(peligrosidadLimite).isEmpty()
+	
+	method tieneAlgoQuePesaEntre(min, max) = cosas.find { cosa => cosa.peso().between(min,max) }
+	
+	method cosaMasPesada() = cosas.max { cosa => cosa.peso() }
+	
+	method totalBultos() = cosas.map { cosa => cosa.bulto().sum() }
+	
+	method pesos() = cosas.map { cosa => cosa.peso() }
+	
+	//Metodos agregados utiles para el ejercicio.
+	method tara() = 1000
+	
+	//Metodo para filtrar segun un limite de peligrosidad
+	method filtrarPorPeligrosidad(limite) = cosas.filter { cosa => cosa.nivelPeligrosidad() > limite }
 }
