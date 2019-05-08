@@ -19,15 +19,14 @@ object camion {
 	//Se cambio el nombre del parametro por peligrosidadLimite.
 	method puedeCircularEnRuta(peligrosidadLimite) = self.filtrarPorPeligrosidad(peligrosidadLimite).isEmpty()
 	
-	method tieneAlgoQuePesaEntre(min, max) = cosas.find { cosa => cosa.peso().between(min,max) }
+	method tieneAlgoQuePesaEntre(min, max) = cosas.any { cosa => cosa.peso().between(min,max) }
 	
 	method cosaMasPesada() = cosas.max { cosa => cosa.peso() }
 	
-	method totalBultos() = cosas.map { cosa => cosa.bulto().sum() }
+	method totalBultos() = cosas.map { cosa => cosa.bulto() }.sum()
 	
 	method pesos() = cosas.map { cosa => cosa.peso() }
 	
-	//Metodos agregados utiles para el ejercicio.
 	method tara() = 1000
 	
 	//Metodo para filtrar segun un limite de peligrosidad

@@ -50,16 +50,25 @@ object bateriaAntiaerea {
 object contenedorPortuario {
 	var objetosContenidos = []
 	
+	method agregar(cosa) { objetosContenidos.add(cosa) }
+	method quitar(cosa) { objetosContenidos.remove(cosa) }
+	
 	method peso() = self.mapPesosDeObjetosContenidos().sum() + 100
 	method nivelPeligrosidad() = 
 		if (objetosContenidos.isEmpty()) { 0 } else { self.objetoMasPeligroso().nivelPeligrosidad() }
 	method bulto() = 1 + objetosContenidos.map { obj => obj.bulto() }.sum()
-	method modificate() { objetosContenidos.forEach { obj => obj.reacciona() }}
+	method modificate() { objetosContenidos.forEach { obj => obj.modificate() } }
 	
 	//Metodo para mapear la lista de objetosContenidos a sus pesos.
-	method mapPesosDeObjetosContenidos() = objetosContenidos.map { obj => obj.modificate() }
+	method mapPesosDeObjetosContenidos() = objetosContenidos.map { obj => obj.peso() }
 	
-	method objetoMasPeligroso() = objetosContenidos.max { obj => obj.nivelPeligrosidad() }
+	
+	/*Este estrategia de hacer una funcion parcial para poder condicionarla no me gusta y supongo que hay algun
+	constructor para remplazar el .max{} usado en la parcial, pero no lo encontre.*/
+	method objetoMasPeligroso() = if (not objetosContenidos.isEmpty()) { self.objetoMasPeligroso_() } else { null }
+	
+	method objetoMasPeligroso_() = objetosContenidos.max{ obj => obj.nivelPeligrosidad()
+	}
 }
 
 object residuosRadioactivos {
@@ -78,7 +87,3 @@ object embalajeDeSeguridad {
 	method bulto() = 2
 	method modificate() { }
 }
-
-
-
-
