@@ -1,0 +1,39 @@
+import cosas.*
+
+describe "Test de los metodos menos comunes de Cosas" {
+	
+	test "bulto paqueteDeLAdrillos" {
+		paqueteDeLadrillos.cantidadLadrillos(50)
+		assert.that(paqueteDeLadrillos.bulto() == 1)
+		paqueteDeLadrillos.cantidadLadrillos(500)
+		assert.that(paqueteDeLadrillos.bulto() == 3)
+	}
+
+	test "Contenedor Portuario (agregar , quitar, peso, nivel peligrosidad.)" {
+		contenedorPortuario.agregar(knightRider)
+		contenedorPortuario.agregar(paqueteDeLadrillos)
+		contenedorPortuario.agregar(residuosRadioactivos)
+		assert.that(contenedorPortuario.peso() == 500+200+50+100)
+		assert.that(contenedorPortuario.nivelPeligrosidad() == 200)
+		contenedorPortuario.quitar(knightRider)
+		contenedorPortuario.quitar(paqueteDeLadrillos)
+		contenedorPortuario.quitar(residuosRadioactivos)
+		assert.that(contenedorPortuario.nivelPeligrosidad() == 0)	
+	}
+	
+	test "Contenedor Portuario (objetoMasPeligroso)" {
+		assert.that(contenedorPortuario.objetoMasPeligroso() == null)
+		contenedorPortuario.agregar(knightRider)
+		contenedorPortuario.agregar(paqueteDeLadrillos)
+		contenedorPortuario.agregar(residuosRadioactivos)
+		assert.that(contenedorPortuario.objetoMasPeligroso() == residuosRadioactivos)
+	}
+	
+	test "Embalaje De Seguridad" {
+		assert.that(embalajeDeSeguridad.peso() == 500)
+		assert.that(embalajeDeSeguridad.nivelPeligrosidad() == 5)
+		embalajeDeSeguridad.cosa(bumblebee)
+		assert.that(embalajeDeSeguridad.peso() == 800)
+		assert.that(embalajeDeSeguridad.nivelPeligrosidad() == 15/2)
+	} 
+}

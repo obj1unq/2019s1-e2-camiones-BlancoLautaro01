@@ -1,0 +1,46 @@
+import cosas.*
+import camion.*
+
+describe "Tests de Camion"{
+	
+	fixture {
+		camion.cargar(knightRider)	
+		camion.cargar(paqueteDeLadrillos)
+		camion.cargar(bateriaAntiaerea)
+	}
+	
+	test "Peso total (tambien prueba pesos() y tara())" {
+		assert.that(camion.pesoTotal() == 2024)
+	}
+	
+	test "Objetos Peligrosos" {
+		assert.that(camion.objetosPeligrosos(50) == [bateriaAntiaerea])
+	}
+	
+	test "Objeto Mas Peligroso" {
+		assert.that(camion.objetosMasPeligrosos(knightRider) == [bateriaAntiaerea])
+		assert.that(camion.objetosMasPeligrosos(paqueteDeLadrillos) == [knightRider,bateriaAntiaerea])
+		camion.cargar(residuosRadioactivos)
+		assert.that(camion.objetosMasPeligrosos(knightRider) == [bateriaAntiaerea,residuosRadioactivos])
+	}
+	
+	test "Puede circular en ruta" {
+		assert.notThat(camion.puedeCircularEnRuta(50))
+		assert.that(camion.puedeCircularEnRuta(200))
+	}
+	
+	test "Tiene algo que pese entre" {
+		assert.that(camion.tieneAlgoQuePesaEntre(450, 1000))
+		assert.notThat(camion.tieneAlgoQuePesaEntre(0, 100))
+	}
+	
+	test "Cosa mas pesada (Tambien prueba descargar)" {
+		assert.that(camion.cosaMasPesada() == knightRider)
+		camion.descargar(knightRider)
+		assert.that(camion.cosaMasPesada() == bateriaAntiaerea)
+	}
+	
+	test "Total Bultos" {
+		assert.that(camion.totalBultos() == 5)
+	}
+}
